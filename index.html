@@ -1,0 +1,215 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>A Special Invitation 🌹</title>
+    <style>
+        :root {
+            --gold: #d4af37;
+            --deep-bg: #05070a;
+            --accent-red: #ff3344;
+        }
+
+        body {
+            margin: 0;
+            height: 100vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            background: radial-gradient(circle at center, #c22222 0%, #05070a 100%);
+            font-family: 'Poppins', sans-serif;
+            overflow: hidden;
+            touch-action: manipulation;
+        }
+
+        /* Falling Petals Background */
+        .petals-container {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: 1;
+        }
+
+        .petal {
+            position: absolute;
+            background-color: var(--accent-red);
+            border-radius: 150% 0 150% 0;
+            opacity: 0.7;
+            animation: fall linear infinite;
+        }
+
+        @keyframes fall {
+            0% { transform: translateY(-10vh) rotate(0deg); }
+            100% { transform: translateY(110vh) rotate(720deg); }
+        }
+
+        /* Enlarged Pro Cardbox */
+        .card-box {
+            background: rgba(255, 255, 255, 0.08);
+            backdrop-filter: blur(25px);
+            -webkit-backdrop-filter: blur(25px);
+            border: 2px solid var(--gold);
+            border-radius: 25px;
+            padding: 50px 30px;
+            width: 88%; 
+            max-width: 400px; 
+            text-align: center;
+            box-shadow: 0 0 40px rgba(212, 175, 55, 0.2);
+            position: relative;
+            color: white;
+            z-index: 10;
+            transition: all 0.3s ease;
+        }
+
+        h1 { font-size: 2.2rem; margin-bottom: 20px; font-weight: 800; color: white; }
+
+        .btn-container {
+            display: flex;
+            justify-content: center;
+            gap: 20px;
+            margin-top: 40px;
+            position: relative;
+            height: 80px;
+        }
+
+        .btn {
+            padding: 15px 35px;
+            border-radius: 12px;
+            border: none;
+            font-size: 1.1rem;
+            font-weight: 700;
+            cursor: pointer;
+            -webkit-tap-highlight-color: transparent;
+        }
+
+        #yesBtn { background: linear-gradient(45deg, var(--gold), #f9d976); color: #000; }
+
+        #noBtn {
+            background-color: white;
+            color: #000;
+            position: absolute;
+            left: 60%;
+            transition: all 0.15s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+        }
+
+        /* Prank Reveal Style */
+        #prankSection { display: none; }
+        .prank-title { color: #ffeb3b; font-size: 2rem; margin-bottom: 15px; }
+        .prank-text { 
+            font-size: 1.3rem; 
+            line-height: 1.6; 
+            color: #fff; 
+            font-weight: 600;
+            margin-bottom: 25px;
+        }
+        
+        .whatsapp-btn {
+            background: #25d366;
+            color: white;
+            padding: 12px 20px;
+            border-radius: 8px;
+            text-decoration: none;
+            display: inline-block;
+            font-weight: bold;
+            margin-top: 10px;
+        }
+
+        .footer-text {
+            margin-top: 40px;
+            color: var(--gold);
+            font-size: 1.3rem;
+            font-style: italic;
+            text-shadow: 0 0 10px rgba(212, 175, 55, 0.5);
+            z-index: 10;
+        }
+
+        .shake { animation: shakeEffect 0.1s infinite; }
+        @keyframes shakeEffect {
+            0% { transform: translate(1px, 1px) rotate(0deg); }
+            50% { transform: translate(-1px, -1px) rotate(-1deg); }
+            100% { transform: translate(1px, -1px) rotate(1deg); }
+        }
+    </style>
+</head>
+<body>
+
+    <div class="petals-container" id="petals"></div>
+
+    <audio id="laughSound" loop>
+        <source src="https://www.myinstants.com/media/sounds/long-laugh.mp3" type="audio/mpeg">
+    </audio>
+
+    <div class="card-box" id="mainCard">
+        <div id="baitSection">
+            <h1>Will you be my Val? 🌹</h1>
+            <p style="opacity: 0.9;">You are the only one in my...</p>
+            <div class="btn-container">
+                <button class="btn" id="yesBtn" onclick="revealPrank()">Yes</button>
+                <button class="btn" id="noBtn" onmouseover="moveNo()" ontouchstart="moveNo()">No</button>
+            </div>
+        </div>
+
+        <div id="prankSection">
+            <h1 class="prank-title">Yeeh! It's a Prank! 😂</h1>
+            <p class="prank-text">
+                Val Ko, Val Ni!<br>
+                Better go and face your study<br>
+                and make money! 💰📚<br>
+                Na Val partner you dey look for? 🤣
+            </p>
+            <a href="https://wa.me/2349151211283?text=You%20got%20me!%20I'll%20go%20and%20face%20my%20studies%20and%20make%20money%20🤣📖" 
+               class="whatsapp-btn">
+               You Don Shayo haha! ✍️
+            </a>
+        </div>
+    </div>
+
+    <div class="footer-text">Val Loves Red ❤️</div>
+
+    <script>
+        const noBtn = document.getElementById('noBtn');
+        const card = document.getElementById('mainCard');
+        const laugh = document.getElementById('laughSound');
+
+        function createPetals() {
+            const container = document.getElementById('petals');
+            for (let i = 0; i < 25; i++) {
+                const petal = document.createElement('div');
+                petal.className = 'petal';
+                const size = Math.random() * 15 + 10 + 'px';
+                petal.style.width = size;
+                petal.style.height = size;
+                petal.style.left = Math.random() * 100 + 'vw';
+                petal.style.animationDuration = Math.random() * 3 + 3 + 's';
+                petal.style.animationDelay = Math.random() * 5 + 's';
+                container.appendChild(petal);
+            }
+        }
+
+        function moveNo() {
+            const padding = 20;
+            const maxX = card.clientWidth - noBtn.clientWidth - padding;
+            const maxY = card.clientHeight - noBtn.clientHeight - padding;
+            const randomX = Math.floor(Math.random() * maxX);
+            const randomY = Math.floor(Math.random() * maxY);
+            noBtn.style.left = randomX + 'px';
+            noBtn.style.top = randomY + 'px';
+        }
+
+        function revealPrank() {
+            laugh.play();
+            document.getElementById('baitSection').style.display = 'none';
+            document.getElementById('prankSection').style.display = 'block';
+            card.classList.add('shake');
+            document.body.style.background = "#7b0000"; // Dramatic color change
+        }
+
+        createPetals();
+    </script>
+</body>
+</html>
